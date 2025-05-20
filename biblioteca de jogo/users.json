@@ -1,0 +1,22 @@
+{
+    "admin": {
+        "password": "admin123",
+        "role": "Administrador"
+    },
+    "manager": {
+        "password": "manager123",
+        "role": "Gerente"
+    },
+    "employee": {
+        "password": "emp123",
+        "role": "Funcionário"
+    },
+    "Franja": {
+        "password": "123123",
+        "role": "Owner"
+    },
+    "Marques": {
+        "password": "gostadepila",
+        "role": "user"
+    }
+}
