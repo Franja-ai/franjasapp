@@ -269,11 +269,27 @@ else:
 
     # --- Lista dos jogos com preços ---
     most_played_games = [
-        {"title": "God of War", "filename": "god_of_war.jpg", "price": 5.00},
-        {"title": "Grand Theft Auto VI", "filename": "gtavi.jpg", "price": 6.50},
-        {"title": "Counter Strike 2 (prime)", "filename": "cs2.jpg", "price": 4.75},
-        {"title": "EA SPORTS FC™ 25 Ultimate Edition", "filename": "ea_25_ult.jpg", "price": 7.20},
-        {"title": "EA SPORTS FC™ 25 Standart Edition", "filename": "ea_25_stand.jpg", "price": 6.00},
+        {
+            "title": "God of War",
+            "price": 5.00,
+            "url": "https://image.api.playstation.com/vulcan/img/rnd/202010/2217/LsaRVLF2IU2L1FNtu9d3MKLq.jpg"
+        },
+        {"title": "Grand Theft Auto VI", 
+         "price": 6.50,
+         "url": "https://gaming-cdn.com/images/products/2462/616x353/grand-theft-auto-vi-pc-jogo-rockstar-cover.jpg?v=1746543065"
+         },
+        {"title": "Counter Strike 2 (prime)", 
+         "price": 4.75,
+         "url": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg?t=1696498820"
+         },
+        {"title": "EA SPORTS FC™ 25 Ultimate Edition", 
+         "price": 7.20,
+         "url": "https://image.api.playstation.com/vulcan/ap/rnd/202407/1814/ad53de47262b4bd4bf41f1f62f7feb40095b7716e26a3d1c.jpg"
+         },
+        {"title": "EA SPORTS FC™ 25 Standart Edition",
+         "price": 6.00,
+         "url": "https://image.api.playstation.com/vulcan/ap/rnd/202503/2520/f9bf56d8e1489be01e98aaf5040a54ad4e7d7af183901f17.jpg"
+        },
     ]
 
     # --- Histórico de aluguéis na sessão ---
@@ -302,11 +318,15 @@ else:
 
         for idx, game in enumerate(filtered_games):
             with cols[idx % 3]:
-                image_path = os.path.join("images", game["filename"])
-                if os.path.exists(image_path):
-                    st.image(Image.open(image_path), width=200, caption=game["title"])
+                # Se houver URL, usa a imagem online, senão tenta local
+                if "url" in game and game["url"]:
+                    st.image(game["url"], width=200, caption=game["title"])
                 else:
-                    st.warning(f"Imagem não encontrada: {game['filename']}")
+                    image_path = os.path.join("images", game["filename"])
+                    if os.path.exists(image_path):
+                        st.image(Image.open(image_path), width=200, caption=game["title"])
+                    else:
+                        st.warning(f"Imagem não encontrada: {game['filename']}")
                 st.markdown(f"**Preço por dia:** ${game['price']:.2f}")
 
                 # Botão para adquirir/alugar o jogo
