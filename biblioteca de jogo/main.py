@@ -302,7 +302,7 @@ else:
 
         for idx, game in enumerate(filtered_games):
             with cols[idx % 3]:
-                image_path = os.path.join(os.getcwd(), game["filename"])
+                image_path = os.path.join("images", game["filename"])
                 if os.path.exists(image_path):
                     st.image(Image.open(image_path), width=200, caption=game["title"])
                 else:
