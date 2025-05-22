@@ -72,17 +72,6 @@ if not st.session_state.logged_in:
                 st.rerun()
 
 else:
-    # --- Logout ---
-    if st.button("🚪 Logout"):
-        st.session_state.logged_in = False
-        st.session_state.user = None
-        st.session_state.role = None
-        st.rerun()
-
-    # --- Saudação e info do usuário logado ---
-    st.sidebar.markdown(f"👤 Usuário: **{st.session_state.user}**")
-    st.sidebar.markdown(f"🛡️ Papel: **{st.session_state.role}**")
-
     # --- Language Selector ---
     language_map = {
         " Português": "Português",
@@ -94,6 +83,7 @@ else:
         " 日本語": "Japanese",
         " Русский": "Russian",
         " العربية": "Arabic",
+        " Polski": "Polish",
     }
 
     selected_label = st.sidebar.selectbox("🌐 Escolha o idioma", list(language_map.keys()))
@@ -102,8 +92,15 @@ else:
     # --- Translation Dictionary ---
     TEXTS = {
         "Português": {
-            "criar_conta": "Criar Conta",
+            "menu": "Menu",
             "login": "Login",
+            "criar_conta": "Criar Conta",
+            "user": "Usuário",
+            "role": "Papel",
+            "choose_language": "Escolha o idioma",
+            "navigation": "Navegação",
+            "biblioteca": "Biblioteca",
+            "alugar_jogo": "Alugar Jogo",
             "title": "🎮 Gestão de Aluguel de Jogos",
             "form_title": "📋 Formulário de Aluguel",
             "select_game": "Selecione um Jogo",
@@ -120,8 +117,15 @@ else:
             "rented_msg": "{} alugou {} por {} dia(s)",
         },
         "English": {
-            "criar_conta": "Create Account",
+            "menu": "Menu",
             "login": "Login",
+            "criar_conta": "Create Account",
+            "user": "User",
+            "role": "Role",
+            "choose_language": "Choose language",
+            "navigation": "Navigation",
+            "biblioteca": "Library",
+            "alugar_jogo": "Rent Game",
             "title": "🎮 Game Rental Manager",
             "form_title": "📋 Rental Form",
             "select_game": "Select a Game",
@@ -138,8 +142,15 @@ else:
             "rented_msg": "{} rented {} for {} day(s)",
         },
         "Spanish": {
-            "criar_conta": "Crear Cuenta",
+            "menu": "Menú",
             "login": "Iniciar Sesión",
+            "criar_conta": "Crear Cuenta",
+            "user": "Usuario",
+            "role": "Rol",
+            "choose_language": "Elige idioma",
+            "navigation": "Navegación",
+            "biblioteca": "Biblioteca",
+            "alugar_jogo": "Alquilar Juego",
             "title": "🎮 Gestor de Alquiler de Juegos",
             "form_title": "📋 Formulario de Alquiler",
             "select_game": "Selecciona un Juego",
@@ -150,17 +161,24 @@ else:
             "phone_error2": "El número de contacto debe tener entre 9 y 15 dígitos.",
             "days": "Número de días para alquilar",
             "submit": "Enviar Alquiler",
-            "success": "Alquiler registrado para",
+            "success": "Aluguel registrado para",
             "error": "Por favor, completa todos los campos obligatorios.",
             "recent": "🕹️ Juegos Alquilados Recientemente",
             "rented_msg": "{} alquiló {} por {} día(s)",
         },
         "German": {
-            "criar_conta": "Benutzerkonto erstellen",
+            "menu": "Menü",
             "login": "Anmelden",
+            "criar_conta": "Konto erstellen",
+            "user": "Benutzer",
+            "role": "Rolle",
+            "choose_language": "Sprache wählen",
+            "navigation": "Navigation",
+            "biblioteca": "Bibliothek",
+            "alugar_jogo": "Spiel mieten",
             "title": "🎮 Spielverleih-Manager",
             "form_title": "📋 Verleihformular",
-            "select_game": "Wählen Sie ein Spiel",
+            "select_game": "Spiel auswählen",
             "name": "Vollständiger Name",
             "email": "E-Mail",
             "phone": "Telefonnummer",
@@ -174,26 +192,40 @@ else:
             "rented_msg": "{} mietete {} für {} Tag(e)",
         },
         "French": {
-            "criar_conta": "Créer un Compte",
+            "menu": "Menu",
             "login": "Connexion",
+            "criar_conta": "Créer un compte",
+            "user": "Utilisateur",
+            "role": "Rôle",
+            "choose_language": "Choisir la langue",
+            "navigation": "Navigation",
+            "biblioteca": "Bibliothèque",
+            "alugar_jogo": "Louer un jeu",
             "title": "🎮 Gestion de Location de Jeux",
             "form_title": "📋 Formulaire de Location",
-            "select_game": "Sélectionnez un Jeu",
+            "select_game": "Sélectionnez un jeu",
             "name": "Nom complet",
             "email": "E-mail",
             "phone": "Numéro de téléphone",
             "phone_error1": "Le numéro de téléphone doit contenir entre 9 et 15 chiffres.",
             "phone_error2": "Le numéro de téléphone doit être entre 9 et 15 chiffres.",
             "days": "Nombre de jours à louer",
-            "submit": "Soumettre la Location",
+            "submit": "Soumettre la location",
             "success": "Location enregistrée pour",
             "error": "Veuillez remplir tous les champs obligatoires.",
-            "recent": "🕹️ Jeux Récemment Loués",
+            "recent": "🕹️ Jeux récemment loués",
             "rented_msg": "{} a loué {} pour {} jour(s)",
         },
         "Chinese": {
-            "criar_conta": "创建账户",
+            "menu": "菜单",
             "login": "登录",
+            "criar_conta": "创建账户",
+            "user": "用户",
+            "role": "角色",
+            "choose_language": "选择语言",
+            "navigation": "导航",
+            "biblioteca": "游戏库",
+            "alugar_jogo": "租赁游戏",
             "title": "🎮 游戏租赁管理器",
             "form_title": "📋 租赁表格",
             "select_game": "选择一个游戏",
@@ -210,8 +242,15 @@ else:
             "rented_msg": "{} 租赁了 {} 为期 {} 天",
         },
         "Japanese": {
-            "criar_conta": "アカウントを作成",
+            "menu": "メニュー",
             "login": "ログイン",
+            "criar_conta": "アカウントを作成",
+            "user": "ユーザー",
+            "role": "役割",
+            "choose_language": "言語を選択",
+            "navigation": "ナビゲーション",
+            "biblioteca": "ライブラリ",
+            "alugar_jogo": "ゲームをレンタル",
             "title": "🎮 ゲームレンタルマネージャー",
             "form_title": "📋 レンタルフォーム",
             "select_game": "ゲームを選択",
@@ -228,8 +267,15 @@ else:
             "rented_msg": "{} が {} を {} 日間レンタルしました",
         },
         "Russian": {
-            "criar_conta": "Создать аккаунт",
+            "menu": "Меню",
             "login": "Войти",
+            "criar_conta": "Создать аккаунт",
+            "user": "Пользователь",
+            "role": "Роль",
+            "choose_language": "Выберите язык",
+            "navigation": "Навигация",
+            "biblioteca": "Библиотека",
+            "alugar_jogo": "Арендовать игру",
             "title": "🎮 Менеджер аренды игр",
             "form_title": "📋 Форма аренды",
             "select_game": "Выберите игру",
@@ -237,7 +283,7 @@ else:
             "email": "Электронная почта",
             "phone": "Номер телефона",
             "phone_error1": "Номер телефона должен содержать от 9 до 15 цифр.",
-            "phone_error2": "Номер телефона должен быть от 9 до 15 цифр.",
+            "phone_error2": "Номер телефона должен быть от 9 до 15",
             "days": "Количество дней аренды",
             "submit": "Отправить аренду",
             "success": "Аренда зарегистрирована для",
@@ -246,8 +292,15 @@ else:
             "rented_msg": "{} арендовал {} на {} день(ей)",
         },
         "Arabic": {
-            "criar_conta": "إنشاء حساب",
+            "menu": "القائمة",
             "login": "تسجيل الدخول",
+            "criar_conta": "إنشاء حساب",
+            "user": "المستخدم",
+            "role": "الدور",
+            "choose_language": "اختر اللغة",
+            "navigation": "التنقل",
+            "biblioteca": "المكتبة",
+            "alugar_jogo": "استئجار لعبة",
             "title": "🎮 مدير تأجير الألعاب",
             "form_title": "📋 نموذج الإيجار",
             "select_game": "اختر لعبة",
@@ -263,17 +316,41 @@ else:
             "recent": "🕹️ الألعاب المستأجرة مؤخرًا",
             "rented_msg": "{} استأجر {} لمدة {} يوم(أيام)",
         },
+        "Polish": {
+            "menu": "Menu",
+            "login": "Zaloguj się",
+            "criar_conta": "Utwórz konto",
+            "user": "Użytkownik",
+            "role": "Rola",
+            "choose_language": "Wybierz język",
+            "navigation": "Nawigacja",
+            "biblioteca": "Biblioteka",
+            "alugar_jogo": "Wypożycz grę",
+            "title": "🎮 Menedżer Wypożyczeń Gier",
+            "form_title": "📋 Formularz Wypożyczenia",
+            "select_game": "Wybierz grę",
+            "name": "Pełne imię",
+            "email": "E-mail",
+            "phone": "Numer telefonu",
+            "phone_error1": "Numer telefonu musi zawierać od 9 do 15 cyfr.",
+            "phone_error2": "Numer telefonu musi mieć od 9 do 15 cyfr.",
+            "days": "Liczba dni wypożyczenia",
+            "submit": "Wyślij wypożyczenie",
+            "success": "Wypożyczenie zarejestrowane dla",
+            "error": "Proszę wypełnić wszystkie wymagane pola.",
+            "recent": "🕹️ Ostatnio wypożyczone gry",
+            "rented_msg": "{} wypożyczył {} na {} dzień(i)",
+        },
     }
 
     T = TEXTS[lang]
 
+    # --- Saudação e info do usuário logado (agora traduzido) ---
+    st.sidebar.markdown(f"👤 {T['user']}: **{st.session_state.user}**")
+    st.sidebar.markdown(f"🛡️ {T['role']}: **{st.session_state.role}**")
+
     # --- Lista dos jogos com preços ---
     most_played_games = [
-        {
-            "title": "God of War",
-            "price": 5.00,
-            "url": "https://image.api.playstation.com/vulcan/img/rnd/202010/2217/LsaRVLF2IU2L1FNtu9d3MKLq.jpg"
-        },
         {"title": "Grand Theft Auto VI", 
          "price": 6.50,
          "url": "https://gaming-cdn.com/images/products/2462/616x353/grand-theft-auto-vi-pc-jogo-rockstar-cover.jpg?v=1746543065"
@@ -290,6 +367,59 @@ else:
          "price": 6.00,
          "url": "https://image.api.playstation.com/vulcan/ap/rnd/202503/2520/f9bf56d8e1489be01e98aaf5040a54ad4e7d7af183901f17.jpg"
         },
+        {"title": "Call of Duty®: Modern Warfare® II", 
+         "price": 5.50,
+         "url": "https://cdn.cloudflare.steamstatic.com/steam/apps/1938090/header.jpg?t=1696498820"
+         },
+        {"title": "The Last of Us™ Part I", 
+         "price": 8.00,
+         "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2254450/ss_3f4425df24a8bfe3aee98991da893c9d43413f38.1920x1080.jpg?t=1727477866"
+        },
+        {"title": "The Last of Us™ Part II",
+         "price": 7.00,
+         "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2531310/94b5d8b3165a6fe592e406054b08a2dd24e2f848/capsule_616x353.jpg?t=1746152571"
+         },
+        {"title": "Cyberpunk 2077", 
+         "price": 5.00,
+         "url": "https://image.api.playstation.com/vulcan/ap/rnd/202311/2812/ae84720b553c4ce943e9c342621b60f198beda0dbf533e21.jpg"
+         },
+        {"title": "The Witcher 3: Wild Hunt", 
+         "price": 4.00,
+         "url": "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg?t=1696498820"
+         },
+        {"title": "Minecraft",
+         "price": 3.50,
+         "url": "https://assets.nintendo.com/image/upload/f_auto/q_auto/dpr_1.5/c_scale,w_400/ncom/software/switch/70070000016597/0a33bcaba879403460afe2ff2aafaaefeede964e0fc11a430f71077867cc87f1"
+         },
+        {"title": "The Sims™ 4", 
+         "price": 4.25,
+         "url": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg?t=1696498820"
+         },
+        {"title": "among us",
+         "price": 2.50,
+         "url": "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/header.jpg?t=1696498820"
+         },
+        {"title": "Supermaket Simulator 2",
+         "price": 3.00,
+         "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2670630/capsule_616x353.jpg?t=1747747913"
+         },
+        {"title": "Euro Truck Simulator 2",
+         "price": 4.50,
+         "url": "https://cdn.cloudflare.steamstatic.com/steam/apps/227300/header.jpg?t=1696498820"
+         },
+        {"title": "GOd of War™ Ragnarök",
+         "price": 7.50, 
+         "url": "https://image.api.playstation.com/vulcan/ap/rnd/202503/2016/9c66234099a4c6dc39a12c4101746f7dc9d87babbca5efe4.jpg"
+         },
+        {"title": "Need for Speed™ Unbound", 
+         "price": 6.25,
+         "url": "https://gmedia.playstation.com/is/image/SIEPDC/Need-for-speed-unbound-listing-thumb-en-01-20sep22?$native$"
+         },
+        {"title": "Red Dead Redemption 2",
+         "price": 5.75,
+         "url": "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg?t=1696498820"
+        },
+
     ]
 
     # --- Histórico de aluguéis na sessão ---
@@ -300,7 +430,7 @@ else:
     st.title(T["title"])
 
     # --- Barra de pesquisa (atualiza automaticamente a cada letra) ---
-    search_query = st.text_input("🔎 Pesquisar jogo", value="", key="search_bar")
+    search_query = st.text_input(f"🔎 {T['select_game']}", value="", key="search_bar")
 
     # Filtra os jogos conforme a pesquisa (case-insensitive)
     if search_query:
@@ -308,36 +438,35 @@ else:
     else:
         filtered_games = most_played_games
 
-    # --- Defina as abas principais ---
-    aba = st.sidebar.radio("Navegação", ["Biblioteca", "Alugar Jogo"])
-
     # --- Exibe todos os jogos como uma biblioteca em várias colunas ---
-    if aba == "Biblioteca":
-        st.subheader("📚 Biblioteca de Jogos")
-        cols = st.columns(3)  # 3 colunas
+    st.subheader(f"📚 {T['biblioteca']}")
+    cols = st.columns(3)  # 3 colunas
 
-        for idx, game in enumerate(filtered_games):
-            with cols[idx % 3]:
-                # Se houver URL, usa a imagem online, senão tenta local
-                if "url" in game and game["url"]:
-                    st.image(game["url"], width=200, caption=game["title"])
+    for idx, game in enumerate(filtered_games):
+        with cols[idx % 3]:
+            # Se houver URL, usa a imagem online, senão tenta local
+            if "url" in game and game["url"]:
+                st.image(game["url"], width=200, caption=game["title"])
+            else:
+                image_path = os.path.join("images", game.get("filename", ""))
+                if os.path.exists(image_path):
+                    st.image(Image.open(image_path), width=200, caption=game["title"])
                 else:
-                    image_path = os.path.join("images", game["filename"])
-                    if os.path.exists(image_path):
-                        st.image(Image.open(image_path), width=200, caption=game["title"])
-                    else:
-                        st.warning(f"Imagem não encontrada: {game['filename']}")
-                st.markdown(f"**Preço por dia:** ${game['price']:.2f}")
+                    st.warning(f"{T['error']} ({game.get('filename', '')})")
+            st.markdown(f"**{T['days']}:** ${game['price']:.2f}")
+            # Botão para alugar jogo
+            if st.button(T["alugar_jogo"], key=f"rent_{idx}"):
+                st.session_state.aba = T["alugar_jogo"]
+                st.session_state.selected_game = game
+                st.rerun()
 
-                # Botão para adquirir/alugar o jogo
-                if st.button(f"🎮 Adquirir '{game['title']}'", key=f"acquire_{idx}"):
-                    st.session_state.selected_game = game
-                    st.session_state.show_rent_form = True
-                    st.session_state.aba = "Alugar Jogo"
-                    st.rerun()
+    # --- Histórico de aluguéis recentes ---
+    st.subheader(T["recent"])
+    for rental in st.session_state.recent_rentals:
+        st.write(T["rented_msg"].format(rental["name"], rental["game"], rental["days"]))
 
     # --- Formulário de aluguel em outra aba ---
-    if aba == "Alugar Jogo" or st.session_state.get("aba") == "Alugar Jogo":
+    if st.session_state.get("aba") == T["alugar_jogo"]:
         st.subheader(T["form_title"])
         selected_game = st.session_state.get("selected_game", None)
         if selected_game:
@@ -361,5 +490,5 @@ else:
                     })
                     st.success(f"{T['success']} {name}!")
                     st.session_state.show_rent_form = False
-                    st.session_state.aba = "Biblioteca"
+                    st.session_state.aba = T["biblioteca"]
                     st.rerun()
