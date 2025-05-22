@@ -27,17 +27,295 @@ if "logged_in" not in st.session_state:
     st.session_state.role = None
 
 
+# --- Dicionário de idiomas e textos ---
+language_map = {
+    " Português": "Português",
+    " English": "English",
+    " Español": "Spanish",
+    " Deutsch": "German",
+    " Français": "French",
+    " 中文": "Chinese",
+    " 日本語": "Japanese",
+    " Русский": "Russian",
+    " العربية": "Arabic",
+    " Polski": "Polish",
+}
+
+TEXTS = {
+    "Português": {
+        "menu": "Menu",
+        "login": "Login",
+        "criar_conta": "Criar Conta",
+        "user": "Usuário",
+        "role": "Papel",
+        "choose_language": "Escolha o idioma",
+        "navigation": "Navegação",
+        "biblioteca": "Biblioteca",
+        "alugar_jogo": "Alugar Jogo",
+        "title": "🎮 Gestão de Aluguel de Jogos",
+        "form_title": "📋 Formulário de Aluguel",
+        "select_game": "Selecione um Jogo",
+        "name": "Nome completo",
+        "email": "Email",
+        "phone": "Contacto",
+        "phone_error1": "O contacto deve conter entre 9 a 15 dígitos.",
+        "phone_error2": "O contacto deve ter entre 9 e 15 dígitos.",
+        "days": "Número de dias para alugar",
+        "submit": "Enviar Aluguel",
+        "success": "Aluguel registado para",
+        "error": "Por favor preencha todos os campos obrigatórios.",
+        "recent": "🕹️ Jogos Recentemente Alugados",
+        "rented_msg": "{} alugou {} por {} dia(s)",
+    },
+    "English": {
+        "menu": "Menu",
+        "login": "Login",
+        "criar_conta": "Create Account",
+        "user": "User",
+        "role": "Role",
+        "choose_language": "Choose language",
+        "navigation": "Navigation",
+        "biblioteca": "Library",
+        "alugar_jogo": "Rent Game",
+        "title": "🎮 Game Rental Manager",
+        "form_title": "📋 Rental Form",
+        "select_game": "Select a Game",
+        "name": "Full Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "phone_error1": "Phone number must contain between 9 and 15 digits.",
+        "phone_error2": "Phone number must be between 9 and 15 digits.",
+        "days": "Number of Days to Rent",
+        "submit": "Submit Rental",
+        "success": "Rental recorded for",
+        "error": "Please fill in all required fields.",
+        "recent": "🕹️ Recently Rented Games",
+        "rented_msg": "{} rented {} for {} day(s)",
+    },
+    "Spanish": {
+        "menu": "Menú",
+        "login": "Iniciar Sesión",
+        "criar_conta": "Crear Cuenta",
+        "user": "Usuario",
+        "role": "Rol",
+        "choose_language": "Elige idioma",
+        "navigation": "Navegación",
+        "biblioteca": "Biblioteca",
+        "alugar_jogo": "Alquilar Juego",
+        "title": "🎮 Gestor de Alquiler de Juegos",
+        "form_title": "📋 Formulario de Alquiler",
+        "select_game": "Selecciona un Juego",
+        "name": "Nombre completo",
+        "email": "Correo electrónico",
+        "phone": "Número de contacto",
+        "phone_error1": "El número de contacto debe contener entre 9 y 15 dígitos.",
+        "phone_error2": "El número de contacto debe tener entre 9 y 15 dígitos.",
+        "days": "Número de días para alquilar",
+        "submit": "Enviar Alquiler",
+        "success": "Aluguel registrado para",
+        "error": "Por favor, completa todos los campos obligatorios.",
+        "recent": "🕹️ Juegos Alquilados Recientemente",
+        "rented_msg": "{} alquiló {} por {} día(s)",
+    },
+    "German": {
+        "menu": "Menü",
+        "login": "Anmelden",
+        "criar_conta": "Konto erstellen",
+        "user": "Benutzer",
+        "role": "Rolle",
+        "choose_language": "Sprache wählen",
+        "navigation": "Navigation",
+        "biblioteca": "Bibliothek",
+        "alugar_jogo": "Spiel mieten",
+        "title": "🎮 Spielverleih-Manager",
+        "form_title": "📋 Verleihformular",
+        "select_game": "Spiel auswählen",
+        "name": "Vollständiger Name",
+        "email": "E-Mail",
+        "phone": "Telefonnummer",
+        "phone_error1": "Die Telefonnummer muss zwischen 9 und 15 Ziffern enthalten.",
+        "phone_error2": "Die Telefonnummer muss zwischen 9 und 15 Ziffern liegen.",
+        "days": "Anzahl der Tage zur Miete",
+        "submit": "Verleih einreichen",
+        "success": "Verleih registriert für",
+        "error": "Bitte füllen Sie alle erforderlichen Felder aus.",
+        "recent": "🕹️ Kürzlich vermietete Spiele",
+        "rented_msg": "{} mietete {} für {} Tag(e)",
+    },
+    "French": {
+        "menu": "Menu",
+        "login": "Connexion",
+        "criar_conta": "Créer un compte",
+        "user": "Utilisateur",
+        "role": "Rôle",
+        "choose_language": "Choisir la langue",
+        "navigation": "Navigation",
+        "biblioteca": "Bibliothèque",
+        "alugar_jogo": "Louer un jeu",
+        "title": "🎮 Gestion de Location de Jeux",
+        "form_title": "📋 Formulaire de Location",
+        "select_game": "Sélectionnez un jeu",
+        "name": "Nom complet",
+        "email": "E-mail",
+        "phone": "Numéro de téléphone",
+        "phone_error1": "Le numéro de téléphone doit contenir entre 9 et 15 chiffres.",
+        "phone_error2": "Le numéro de téléphone doit être entre 9 et 15 chiffres.",
+        "days": "Nombre de jours à louer",
+        "submit": "Soumettre la location",
+        "success": "Location enregistrée pour",
+        "error": "Veuillez remplir tous les champs obligatoires.",
+        "recent": "🕹️ Jeux récemment loués",
+        "rented_msg": "{} a loué {} pour {} jour(s)",
+    },
+    "Chinese": {
+        "menu": "菜单",
+        "login": "登录",
+        "criar_conta": "创建账户",
+        "user": "用户",
+        "role": "角色",
+        "choose_language": "选择语言",
+        "navigation": "导航",
+        "biblioteca": "游戏库",
+        "alugar_jogo": "租赁游戏",
+        "title": "🎮 游戏租赁管理器",
+        "form_title": "📋 租赁表格",
+        "select_game": "选择一个游戏",
+        "name": "全名",
+        "email": "电子邮件",
+        "phone": "电话号码",
+        "phone_error1": "电话号码必须包含9到15位数字。",
+        "phone_error2": "电话号码必须在9到15位之间。",
+        "days": "租赁天数",
+        "submit": "提交租赁",
+        "success": "租赁记录为",
+        "error": "请填写所有必填字段。",
+        "recent": "🕹️ 最近租赁的游戏",
+        "rented_msg": "{} 租赁了 {} 为期 {} 天",
+    },
+    "Japanese": {
+        "menu": "メニュー",
+        "login": "ログイン",
+        "criar_conta": "アカウントを作成",
+        "user": "ユーザー",
+        "role": "役割",
+        "choose_language": "言語を選択",
+        "navigation": "ナビゲーション",
+        "biblioteca": "ライブラリ",
+        "alugar_jogo": "ゲームをレンタル",
+        "title": "🎮 ゲームレンタルマネージャー",
+        "form_title": "📋 レンタルフォーム",
+        "select_game": "ゲームを選択",
+        "name": "フルネーム",
+        "email": "メール",
+        "phone": "電話番号",
+        "phone_error1": "電話番号は9〜15桁の数字でなければなりません。",
+        "phone_error2": "電話番号は9〜15桁でなければなりません。",
+        "days": "レンタル日数",
+        "submit": "レンタルを提出",
+        "success": "レンタルが記録されました",
+        "error": "必須フィールドにすべて入力してください。",
+        "recent": "🕹️ 最近レンタルされたゲーム",
+        "rented_msg": "{} が {} を {} 日間レンタルしました",
+    },
+    "Russian": {
+        "menu": "Меню",
+        "login": "Войти",
+        "criar_conta": "Создать аккаунт",
+        "user": "Пользователь",
+        "role": "Роль",
+        "choose_language": "Выберите язык",
+        "navigation": "Навигация",
+        "biblioteca": "Библиотека",
+        "alugar_jogo": "Арендовать игру",
+        "title": "🎮 Менеджер аренды игр",
+        "form_title": "📋 Форма аренды",
+        "select_game": "Выберите игру",
+        "name": "Полное имя",
+        "email": "Электронная почта",
+        "phone": "Номер телефона",
+        "phone_error1": "Номер телефона должен содержать от 9 до 15 цифр.",
+        "phone_error2": "Номер телефона должен быть от 9 до 15",
+        "days": "Количество дней аренды",
+        "submit": "Отправить аренду",
+        "success": "Аренда зарегистрирована для",
+        "error": "Пожалуйста, заполните все обязательные поля.",
+        "recent": "🕹️ Недавно арендованные игры",
+        "rented_msg": "{} арендовал {} на {} день(ей)",
+    },
+    "Arabic": {
+        "menu": "القائمة",
+        "login": "تسجيل الدخول",
+        "criar_conta": "إنشاء حساب",
+        "user": "المستخدم",
+        "role": "الدور",
+        "choose_language": "اختر اللغة",
+        "navigation": "التنقل",
+        "biblioteca": "المكتبة",
+        "alugar_jogo": "استئجار لعبة",
+        "title": "🎮 مدير تأجير الألعاب",
+        "form_title": "📋 نموذج الإيجار",
+        "select_game": "اختر لعبة",
+        "name": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "phone_error1": "يجب أن يحتوي رقم الهاتف على 9 إلى 15 رقمًا.",
+        "phone_error2": "يجب أن يكون رقم الهاتف بين 9 و 15 رقمًا.",
+        "days": "عدد الأيام للإيجار",
+        "submit": "إرسال الإيجار",
+        "success": "تم تسجيل الإيجار لـ",
+        "error": "يرجى ملء جميع الحقول المطلوبة.",
+        "recent": "🕹️ الألعاب المستأجرة مؤخرًا",
+        "rented_msg": "{} استأجر {} لمدة {} يوم(أيام)",
+    },
+    "Polish": {
+        "menu": "Menu",
+        "login": "Zaloguj się",
+        "criar_conta": "Utwórz konto",
+        "user": "Użytkownik",
+        "role": "Rola",
+        "choose_language": "Wybierz język",
+        "navigation": "Nawigacja",
+        "biblioteca": "Biblioteka",
+        "alugar_jogo": "Wypożycz grę",
+        "title": "🎮 Menedżer Wypożyczeń Gier",
+        "form_title": "📋 Formularz Wypożyczenia",
+        "select_game": "Wybierz grę",
+        "name": "Pełne imię",
+        "email": "E-mail",
+        "phone": "Numer telefonu",
+        "phone_error1": "Numer telefonu musi zawierać od 9 do 15 cyfr.",
+        "phone_error2": "Numer telefonu musi mieć od 9 do 15 cyfr.",
+        "days": "Liczba dni wypożyczenia",
+        "submit": "Wyślij wypożyczenie",
+        "success": "Wypożyczenie zarejestrowane dla",
+        "error": "Proszę wypełnić wszystkie wymagane pola.",
+        "recent": "🕹️ Ostatnio wypożyczone gry",
+        "rented_msg": "{} wypożyczył {} na {} dzień(i)",
+    },
+}
+
+# --- Seleção de idioma sempre visível ---
+if "selected_lang" not in st.session_state:
+    st.session_state.selected_lang = " Português"
+selected_label = st.sidebar.selectbox(
+    "🌐 Escolha o idioma",
+    list(language_map.keys()),
+    index=list(language_map.keys()).index(st.session_state.selected_lang),
+    key="sidebar_language_select"
+)
+st.session_state.selected_lang = selected_label
+lang = language_map[selected_label]
+T = TEXTS[lang]
+
 # --- Menu para escolher Login ou Registro ---
-menu = st.sidebar.selectbox("Menu", ["Login", "Criar Conta"])
-
-
 if not st.session_state.logged_in:
+    menu = st.sidebar.selectbox(T["menu"], [T["login"], T["criar_conta"]], key="sidebar_auth_menu")
 
-    if menu == "Login":
-        st.title("🔐 Login")
+    if menu == T["login"]:
+        st.title("🔐 " + T["login"])
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
-        login_button = st.button("Login")
+        login_button = st.button(T["login"])
 
         if login_button:
             users = load_users()
@@ -50,12 +328,12 @@ if not st.session_state.logged_in:
                 st.error("Incorrect username or password.")
         st.stop()
 
-    elif menu == "Criar Conta":
-        st.title("📝 Criar Conta")
+    elif menu == T["criar_conta"]:
+        st.title("📝 " + T["criar_conta"])
         new_username = st.text_input("Username")
         new_password = st.text_input("Password", type="password")
         confirm_password = st.text_input("Confirmar Password", type="password")
-        create_button = st.button("Criar Conta")
+        create_button = st.button(T["criar_conta"])
 
         if create_button:
             users = load_users()
@@ -72,278 +350,14 @@ if not st.session_state.logged_in:
                 st.rerun()
 
 else:
-    # --- Language Selector ---
-    language_map = {
-        " Português": "Português",
-        " English": "English",
-        " Español": "Spanish",
-        " Deutsch": "German",
-        " Français": "French",
-        " 中文": "Chinese",
-        " 日本語": "Japanese",
-        " Русский": "Russian",
-        " العربية": "Arabic",
-        " Polski": "Polish",
-    }
-
-    selected_label = st.sidebar.selectbox("🌐 Escolha o idioma", list(language_map.keys()))
-    lang = language_map[selected_label]
-
-    # --- Translation Dictionary ---
-    TEXTS = {
-        "Português": {
-            "menu": "Menu",
-            "login": "Login",
-            "criar_conta": "Criar Conta",
-            "user": "Usuário",
-            "role": "Papel",
-            "choose_language": "Escolha o idioma",
-            "navigation": "Navegação",
-            "biblioteca": "Biblioteca",
-            "alugar_jogo": "Alugar Jogo",
-            "title": "🎮 Gestão de Aluguel de Jogos",
-            "form_title": "📋 Formulário de Aluguel",
-            "select_game": "Selecione um Jogo",
-            "name": "Nome completo",
-            "email": "Email",
-            "phone": "Contacto",
-            "phone_error1": "O contacto deve conter entre 9 a 15 dígitos.",
-            "phone_error2": "O contacto deve ter entre 9 e 15 dígitos.",
-            "days": "Número de dias para alugar",
-            "submit": "Enviar Aluguel",
-            "success": "Aluguel registado para",
-            "error": "Por favor preencha todos os campos obrigatórios.",
-            "recent": "🕹️ Jogos Recentemente Alugados",
-            "rented_msg": "{} alugou {} por {} dia(s)",
-        },
-        "English": {
-            "menu": "Menu",
-            "login": "Login",
-            "criar_conta": "Create Account",
-            "user": "User",
-            "role": "Role",
-            "choose_language": "Choose language",
-            "navigation": "Navigation",
-            "biblioteca": "Library",
-            "alugar_jogo": "Rent Game",
-            "title": "🎮 Game Rental Manager",
-            "form_title": "📋 Rental Form",
-            "select_game": "Select a Game",
-            "name": "Full Name",
-            "email": "Email",
-            "phone": "Phone Number",
-            "phone_error1": "Phone number must contain between 9 and 15 digits.",
-            "phone_error2": "Phone number must be between 9 and 15 digits.",
-            "days": "Number of Days to Rent",
-            "submit": "Submit Rental",
-            "success": "Rental recorded for",
-            "error": "Please fill in all required fields.",
-            "recent": "🕹️ Recently Rented Games",
-            "rented_msg": "{} rented {} for {} day(s)",
-        },
-        "Spanish": {
-            "menu": "Menú",
-            "login": "Iniciar Sesión",
-            "criar_conta": "Crear Cuenta",
-            "user": "Usuario",
-            "role": "Rol",
-            "choose_language": "Elige idioma",
-            "navigation": "Navegación",
-            "biblioteca": "Biblioteca",
-            "alugar_jogo": "Alquilar Juego",
-            "title": "🎮 Gestor de Alquiler de Juegos",
-            "form_title": "📋 Formulario de Alquiler",
-            "select_game": "Selecciona un Juego",
-            "name": "Nombre completo",
-            "email": "Correo electrónico",
-            "phone": "Número de contacto",
-            "phone_error1": "El número de contacto debe contener entre 9 y 15 dígitos.",
-            "phone_error2": "El número de contacto debe tener entre 9 y 15 dígitos.",
-            "days": "Número de días para alquilar",
-            "submit": "Enviar Alquiler",
-            "success": "Aluguel registrado para",
-            "error": "Por favor, completa todos los campos obligatorios.",
-            "recent": "🕹️ Juegos Alquilados Recientemente",
-            "rented_msg": "{} alquiló {} por {} día(s)",
-        },
-        "German": {
-            "menu": "Menü",
-            "login": "Anmelden",
-            "criar_conta": "Konto erstellen",
-            "user": "Benutzer",
-            "role": "Rolle",
-            "choose_language": "Sprache wählen",
-            "navigation": "Navigation",
-            "biblioteca": "Bibliothek",
-            "alugar_jogo": "Spiel mieten",
-            "title": "🎮 Spielverleih-Manager",
-            "form_title": "📋 Verleihformular",
-            "select_game": "Spiel auswählen",
-            "name": "Vollständiger Name",
-            "email": "E-Mail",
-            "phone": "Telefonnummer",
-            "phone_error1": "Die Telefonnummer muss zwischen 9 und 15 Ziffern enthalten.",
-            "phone_error2": "Die Telefonnummer muss zwischen 9 und 15 Ziffern liegen.",
-            "days": "Anzahl der Tage zur Miete",
-            "submit": "Verleih einreichen",
-            "success": "Verleih registriert für",
-            "error": "Bitte füllen Sie alle erforderlichen Felder aus.",
-            "recent": "🕹️ Kürzlich vermietete Spiele",
-            "rented_msg": "{} mietete {} für {} Tag(e)",
-        },
-        "French": {
-            "menu": "Menu",
-            "login": "Connexion",
-            "criar_conta": "Créer un compte",
-            "user": "Utilisateur",
-            "role": "Rôle",
-            "choose_language": "Choisir la langue",
-            "navigation": "Navigation",
-            "biblioteca": "Bibliothèque",
-            "alugar_jogo": "Louer un jeu",
-            "title": "🎮 Gestion de Location de Jeux",
-            "form_title": "📋 Formulaire de Location",
-            "select_game": "Sélectionnez un jeu",
-            "name": "Nom complet",
-            "email": "E-mail",
-            "phone": "Numéro de téléphone",
-            "phone_error1": "Le numéro de téléphone doit contenir entre 9 et 15 chiffres.",
-            "phone_error2": "Le numéro de téléphone doit être entre 9 et 15 chiffres.",
-            "days": "Nombre de jours à louer",
-            "submit": "Soumettre la location",
-            "success": "Location enregistrée pour",
-            "error": "Veuillez remplir tous les champs obligatoires.",
-            "recent": "🕹️ Jeux récemment loués",
-            "rented_msg": "{} a loué {} pour {} jour(s)",
-        },
-        "Chinese": {
-            "menu": "菜单",
-            "login": "登录",
-            "criar_conta": "创建账户",
-            "user": "用户",
-            "role": "角色",
-            "choose_language": "选择语言",
-            "navigation": "导航",
-            "biblioteca": "游戏库",
-            "alugar_jogo": "租赁游戏",
-            "title": "🎮 游戏租赁管理器",
-            "form_title": "📋 租赁表格",
-            "select_game": "选择一个游戏",
-            "name": "全名",
-            "email": "电子邮件",
-            "phone": "电话号码",
-            "phone_error1": "电话号码必须包含9到15位数字。",
-            "phone_error2": "电话号码必须在9到15位之间。",
-            "days": "租赁天数",
-            "submit": "提交租赁",
-            "success": "租赁记录为",
-            "error": "请填写所有必填字段。",
-            "recent": "🕹️ 最近租赁的游戏",
-            "rented_msg": "{} 租赁了 {} 为期 {} 天",
-        },
-        "Japanese": {
-            "menu": "メニュー",
-            "login": "ログイン",
-            "criar_conta": "アカウントを作成",
-            "user": "ユーザー",
-            "role": "役割",
-            "choose_language": "言語を選択",
-            "navigation": "ナビゲーション",
-            "biblioteca": "ライブラリ",
-            "alugar_jogo": "ゲームをレンタル",
-            "title": "🎮 ゲームレンタルマネージャー",
-            "form_title": "📋 レンタルフォーム",
-            "select_game": "ゲームを選択",
-            "name": "フルネーム",
-            "email": "メール",
-            "phone": "電話番号",
-            "phone_error1": "電話番号は9〜15桁の数字でなければなりません。",
-            "phone_error2": "電話番号は9〜15桁でなければなりません。",
-            "days": "レンタル日数",
-            "submit": "レンタルを提出",
-            "success": "レンタルが記録されました",
-            "error": "必須フィールドにすべて入力してください。",
-            "recent": "🕹️ 最近レンタルされたゲーム",
-            "rented_msg": "{} が {} を {} 日間レンタルしました",
-        },
-        "Russian": {
-            "menu": "Меню",
-            "login": "Войти",
-            "criar_conta": "Создать аккаунт",
-            "user": "Пользователь",
-            "role": "Роль",
-            "choose_language": "Выберите язык",
-            "navigation": "Навигация",
-            "biblioteca": "Библиотека",
-            "alugar_jogo": "Арендовать игру",
-            "title": "🎮 Менеджер аренды игр",
-            "form_title": "📋 Форма аренды",
-            "select_game": "Выберите игру",
-            "name": "Полное имя",
-            "email": "Электронная почта",
-            "phone": "Номер телефона",
-            "phone_error1": "Номер телефона должен содержать от 9 до 15 цифр.",
-            "phone_error2": "Номер телефона должен быть от 9 до 15",
-            "days": "Количество дней аренды",
-            "submit": "Отправить аренду",
-            "success": "Аренда зарегистрирована для",
-            "error": "Пожалуйста, заполните все обязательные поля.",
-            "recent": "🕹️ Недавно арендованные игры",
-            "rented_msg": "{} арендовал {} на {} день(ей)",
-        },
-        "Arabic": {
-            "menu": "القائمة",
-            "login": "تسجيل الدخول",
-            "criar_conta": "إنشاء حساب",
-            "user": "المستخدم",
-            "role": "الدور",
-            "choose_language": "اختر اللغة",
-            "navigation": "التنقل",
-            "biblioteca": "المكتبة",
-            "alugar_jogo": "استئجار لعبة",
-            "title": "🎮 مدير تأجير الألعاب",
-            "form_title": "📋 نموذج الإيجار",
-            "select_game": "اختر لعبة",
-            "name": "الاسم الكامل",
-            "email": "البريد الإلكتروني",
-            "phone": "رقم الهاتف",
-            "phone_error1": "يجب أن يحتوي رقم الهاتف على 9 إلى 15 رقمًا.",
-            "phone_error2": "يجب أن يكون رقم الهاتف بين 9 و 15 رقمًا.",
-            "days": "عدد الأيام للإيجار",
-            "submit": "إرسال الإيجار",
-            "success": "تم تسجيل الإيجار لـ",
-            "error": "يرجى ملء جميع الحقول المطلوبة.",
-            "recent": "🕹️ الألعاب المستأجرة مؤخرًا",
-            "rented_msg": "{} استأجر {} لمدة {} يوم(أيام)",
-        },
-        "Polish": {
-            "menu": "Menu",
-            "login": "Zaloguj się",
-            "criar_conta": "Utwórz konto",
-            "user": "Użytkownik",
-            "role": "Rola",
-            "choose_language": "Wybierz język",
-            "navigation": "Nawigacja",
-            "biblioteca": "Biblioteka",
-            "alugar_jogo": "Wypożycz grę",
-            "title": "🎮 Menedżer Wypożyczeń Gier",
-            "form_title": "📋 Formularz Wypożyczenia",
-            "select_game": "Wybierz grę",
-            "name": "Pełne imię",
-            "email": "E-mail",
-            "phone": "Numer telefonu",
-            "phone_error1": "Numer telefonu musi zawierać od 9 do 15 cyfr.",
-            "phone_error2": "Numer telefonu musi mieć od 9 do 15 cyfr.",
-            "days": "Liczba dni wypożyczenia",
-            "submit": "Wyślij wypożyczenie",
-            "success": "Wypożyczenie zarejestrowane dla",
-            "error": "Proszę wypełnić wszystkie wymagane pola.",
-            "recent": "🕹️ Ostatnio wypożyczone gry",
-            "rented_msg": "{} wypożyczył {} na {} dzień(i)",
-        },
-    }
-
-    T = TEXTS[lang]
+    # --- Botão de logout ---
+    if st.sidebar.button("Logout"):
+        st.session_state.logged_in = False
+        st.session_state.user = None
+        st.session_state.role = None
+        st.session_state.aba = None
+        st.session_state.selected_game = None
+        st.rerun()
 
     # --- Saudação e info do usuário logado (agora traduzido) ---
     st.sidebar.markdown(f"👤 {T['user']}: **{st.session_state.user}**")
@@ -468,27 +482,41 @@ else:
     # --- Formulário de aluguel em outra aba ---
     if st.session_state.get("aba") == T["alugar_jogo"]:
         st.subheader(T["form_title"])
-        selected_game = st.session_state.get("selected_game", None)
-        if selected_game:
-            st.markdown(f"**{T['select_game']}:** {selected_game['title']}")
-            name = st.text_input(T["name"])
-            email = st.text_input(T["email"])
-            phone = st.text_input(T["phone"])
-            days = st.number_input(T["days"], min_value=1, max_value=30, value=1)
-            submit_rent = st.button(T["submit"])
+        # Lista de títulos dos jogos para o selectbox
+        game_titles = [game["title"] for game in most_played_games]
+        # Valor padrão: título do jogo selecionado anteriormente (se houver)
+        default_game_title = None
+        if st.session_state.get("selected_game"):
+            default_game_title = st.session_state["selected_game"]["title"]
+        selected_title = st.selectbox(
+            T["select_game"],
+            game_titles,
+            index=game_titles.index(default_game_title) if default_game_title in game_titles else 0,
+            key="selectbox_game"
+        )
+        # Atualiza o jogo selecionado conforme o selectbox
+        selected_game = next(game for game in most_played_games if game["title"] == selected_title)
+        st.session_state.selected_game = selected_game
 
-            if submit_rent:
-                if not name or not email or not phone:
-                    st.error(T["error"])
-                elif not phone.isdigit() or not (9 <= len(phone) <= 15):
-                    st.error(T["phone_error2"])
-                else:
-                    st.session_state.recent_rentals.append({
-                        "name": name,
-                        "game": selected_game["title"],
-                        "days": days
-                    })
-                    st.success(f"{T['success']} {name}!")
-                    st.session_state.show_rent_form = False
-                    st.session_state.aba = T["biblioteca"]
-                    st.rerun()
+        st.markdown(f"**{T['select_game']}:** {selected_game['title']}")
+        name = st.text_input(T["name"])
+        email = st.text_input(T["email"])
+        phone = st.text_input(T["phone"])
+        days = st.number_input(T["days"], min_value=1, max_value=30, value=1)
+        submit_rent = st.button(T["submit"])
+
+        if submit_rent:
+            if not name or not email or not phone:
+                st.error(T["error"])
+            elif not phone.isdigit() or not (9 <= len(phone) <= 15):
+                st.error(T["phone_error2"])
+            else:
+                st.session_state.recent_rentals.append({
+                    "name": name,
+                    "game": selected_game["title"],
+                    "days": days
+                })
+                st.success(f"{T['success']} {name}!")
+                st.session_state.show_rent_form = False
+                st.session_state.aba = T["biblioteca"]
+                st.rerun()
